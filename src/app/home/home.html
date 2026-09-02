@@ -1,0 +1,63 @@
+<section class="hero">
+  <h1 class="hero__title">Un signal décide qui peut entrer.</h1>
+  <p class="hero__body">
+    L'interrupteur ci-dessous pilote <code>tasksModuleEnabled</code>, un signal que lit
+    <code>tasksAccessGuard</code> — un guard fonctionnel — avant d'autoriser l'entrée sur
+    <code>/tasks</code>. Désactive-le, puis essaie d'y entrer.
+  </p>
+
+  <div class="hero__demo">
+    <button
+      type="button"
+      class="switch"
+      role="switch"
+      [attr.aria-checked]="preferences.tasksModuleEnabled()"
+      (click)="onToggleTasksModule()"
+      data-qt-id="home_guardDemo_toggleCheckbox">
+      <span class="switch__track"><span class="switch__knob"></span></span>
+      <span class="switch__label">
+        Module tâches {{ preferences.tasksModuleEnabled() ? 'activé' : 'désactivé' }}
+      </span>
+    </button>
+
+    <a class="button" routerLink="/tasks" data-qt-id="home_nav_tasksLink">Ouvrir les tâches</a>
+  </div>
+
+  @if (!preferences.tasksModuleEnabled()) {
+    <p class="hero__hint" data-qt-id="home_guardDemo_hint">
+      Le guard va te renvoyer directement ici.
+    </p>
+  }
+</section>
+
+<section class="points">
+  <h2 class="points__title">Ce que montre cette application</h2>
+
+  <dl class="points__list">
+    <div class="points__item">
+      <dt>Signals &amp; opérateurs</dt>
+      <dd>
+        <code>signal</code>, <code>computed</code>, <code>linkedSignal</code>,
+        <code>effect</code>, <code>untracked</code>, <code>toSignal</code> — tous dans
+        <code>task-store.service.ts</code>.
+      </dd>
+    </div>
+    <div class="points__item">
+      <dt>Détection des composants</dt>
+      <dd>OnPush partout, un bug de mutation directe isolé, un cas réel de markForCheck.</dd>
+    </div>
+    <div class="points__item">
+      <dt>Injection de dépendances</dt>
+      <dd><code>inject()</code> partout : un service root, un service scopé à la route, un guard fonctionnel.</dd>
+    </div>
+    <div class="points__item">
+      <dt>Smart / dumb</dt>
+      <dd>
+        <code>TaskBoard</code> orchestre des composants qui ne connaissent que
+        <code>input()</code>/<code>output()</code>/<code>model()</code>.
+      </dd>
+    </div>
+  </dl>
+
+  <p class="points__note">Détail fichier par fichier dans le README.</p>
+</section>

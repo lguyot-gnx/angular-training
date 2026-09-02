@@ -11,6 +11,10 @@
 npm-debug.log
 yarn-error.log
 
+# Yarn (node-modules linker — no PnP artifacts expected)
+.yarn/install-state.gz
+.pnp.*
+
 # IDEs and editors
 .idea/
 .project

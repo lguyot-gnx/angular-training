@@ -1,0 +1,10 @@
+<form class="compose" (submit)="onSubmit($event)">
+  <input
+    type="text"
+    class="compose__input"
+    [value]="title()"
+    (input)="onTitleInput($event)"
+    placeholder="Nouvelle tâche..."
+    data-qt-id="taskCreateForm_title_input" />
+  <button type="submit" class="button" data-qt-id="taskCreateForm_submit_button">Ajouter</button>
+</form>

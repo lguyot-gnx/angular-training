@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.tick {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.tick__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: tick-pulse 1s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.tick__label {
+  flex: 1 1 auto;
+}
+
+.tick__value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+@keyframes tick-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}

@@ -1,1 +1,152 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+ * Design tokens. Theme is switched by setting data-theme on <html> (see
+ * app.ts) rather than a component class, so every component's encapsulated
+ * stylesheet can read the same custom properties — Angular's view
+ * encapsulation scopes selectors, not CSS variable inheritance.
+ */
+:root {
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ink: #14171c;
+  --ink-soft: #4b5259;
+  --ink-faint: #7c848c;
+  --paper: #edf0f2;
+  --surface: #ffffff;
+  --line: #d7dce1;
+  --accent: #b8862b;
+  --accent-strong: #93690f;
+  --focus: #2f6fed;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --ink: #eceff2;
+  --ink-soft: #a9b0b8;
+  --ink-faint: #767e86;
+  --paper: #14171c;
+  --surface: #1c2026;
+  --line: #2a2f36;
+  --accent: #e3a83e;
+  --accent-strong: #f2c169;
+  --focus: #6ea0ff;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+code {
+  font-family: var(--font-mono);
+  background: var(--line);
+  padding: 0.05rem 0.35rem;
+  font-size: 0.9em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Shared button primitive — every component reuses this instead of redefining it. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
+}
+
+.button:hover {
+  opacity: 0.85;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+/* Toggle switch — shared by the header theme control and the home page guard demo. */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  padding: 0.25rem;
+}
+
+.switch__track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background-color 0.2s ease;
+}
+
+.switch__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.switch[aria-checked='true'] .switch__track {
+  background: var(--accent);
+}
+
+.switch[aria-checked='true'] .switch__knob {
+  transform: translateX(16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

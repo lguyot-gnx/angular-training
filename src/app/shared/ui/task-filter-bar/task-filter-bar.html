@@ -1,0 +1,23 @@
+<div class="filter-bar">
+  <div class="segmented" role="tablist">
+    @for (option of statusOptions; track option) {
+      <button
+        type="button"
+        role="tab"
+        class="segmented__option"
+        [attr.aria-selected]="status() === option"
+        (click)="statusChange.emit(option)"
+        [attr.data-qt-id]="'taskFilterBar_tabs_' + option + 'Button'">
+        {{ labelFor(option) }}
+      </button>
+    }
+  </div>
+
+  <input
+    type="search"
+    class="filter-bar__search"
+    [value]="search()"
+    (input)="onSearchInput($event)"
+    placeholder="Rechercher une tâche..."
+    data-qt-id="taskFilterBar_search_input" />
+</div>

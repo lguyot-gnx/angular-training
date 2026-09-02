@@ -1,0 +1,75 @@
+:host {
+  display: block;
+}
+
+.hero {
+  max-width: 640px;
+}
+
+.hero__title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.15;
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.hero__body {
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0 0 1.75rem;
+}
+
+.hero__demo {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.hero__hint {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  color: var(--accent-strong);
+}
+
+.points {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.points__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+}
+
+.points__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+}
+
+.points__item {
+  border-left: 2px solid var(--accent);
+  padding-left: 0.9rem;
+}
+
+.points__item dt {
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.points__item dd {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.points__note {
+  margin: 2rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+}

@@ -1,0 +1,45 @@
+<div class="board">
+  <section class="board__main">
+    <div class="stat" data-qt-id="taskBoard_summary_text">
+      <span class="stat__value">{{ store.activeCount() }}</span>
+      <span class="stat__label">tâche(s) non terminée(s)</span>
+    </div>
+
+    <app-task-filter-bar
+      [status]="store.statusFilter()"
+      [search]="store.searchText()"
+      (statusChange)="onStatusChange($event)"
+      (searchChange)="onSearchChange($event)" />
+
+    <app-task-create-form (createRequested)="onCreate($event)" />
+
+    <ul class="task-list" data-qt-id="taskBoard_list_container">
+      @for (task of store.filteredTasks(); track task.id) {
+        <li
+          app-task-item
+          [task]="task"
+          [done]="task.done"
+          (doneChange)="onDoneChange(task.id, $event)"
+          (renameRequested)="onRename(task.id, $event)"
+          (deleteRequested)="onDelete(task.id)"></li>
+      } @empty {
+        <li class="task-list__empty" data-qt-id="taskBoard_list_emptyState">Aucune tâche à afficher.</li>
+      }
+    </ul>
+  </section>
+
+  <aside class="diagnostics" aria-label="Diagnostics">
+    <h2 class="diagnostics__title">Diagnostics</h2>
+    <p class="diagnostics__hint">Hors du flux normal de réactivité — voir README, point 2.</p>
+
+    @if (store.activityLog().length > 0) {
+      <ul class="diagnostics__log" data-qt-id="taskBoard_activity_list">
+        @for (entry of store.activityLog(); track entry) {
+          <li>{{ entry }}</li>
+        }
+      </ul>
+    }
+
+    <app-legacy-tick-counter data-qt-id="taskBoard_legacyWidget_container" />
+  </aside>
+</div>

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"d:/source/dds-transport-ressource-management-portal\" log --all --oneline -S \"timeline-step\\\\|\\\\.timeline-badge\\\\|comma-after\\\\|text-block-border\" --pickaxe-regex -- \"*.scss\")"
+    ]
+  }
+}

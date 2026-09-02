@@ -1,0 +1,41 @@
+@if (isEditing()) {
+  <input
+    type="text"
+    class="task-item__input"
+    [value]="draftTitle()"
+    (input)="onDraftTitleInput($event)"
+    data-qt-id="taskItem_edit_titleInput" />
+  <div class="task-item__actions">
+    <button type="button" class="button" (click)="confirmEdit()" data-qt-id="taskItem_edit_confirmButton">
+      Valider
+    </button>
+    <button
+      type="button"
+      class="button button--ghost"
+      (click)="cancelEdit()"
+      data-qt-id="taskItem_edit_cancelButton">
+      Annuler
+    </button>
+  </div>
+} @else {
+  <input
+    type="checkbox"
+    class="task-item__checkbox"
+    [checked]="done()"
+    (change)="onDoneChange($event)"
+    [attr.aria-label]="'Marquer ' + task().title + ' comme terminée'"
+    data-qt-id="taskItem_row_doneCheckbox" />
+  <span class="task-item__title">{{ task().title }}</span>
+  <div class="task-item__actions">
+    <button type="button" class="button button--ghost" (click)="startEdit()" data-qt-id="taskItem_row_editButton">
+      Éditer
+    </button>
+    <button
+      type="button"
+      class="button button--ghost"
+      (click)="deleteRequested.emit(task().id)"
+      data-qt-id="taskItem_row_deleteButton">
+      Supprimer
+    </button>
+  </div>
+}
