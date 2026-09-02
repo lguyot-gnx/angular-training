@@ -8,3 +8,6 @@
     data-qt-id="taskCreateForm_title_input" />
   <button type="submit" class="button" data-qt-id="taskCreateForm_submit_button">Ajouter</button>
 </form>
+@if (titleError()) {
+  <p class="compose__error" data-qt-id="taskCreateForm_title_errorText">{{ titleError() }}</p>
+}

@@ -44,6 +44,13 @@ Tout est centralisé dans le service de données de la feature :
 | Service scopé à la route | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) déclaré, [`tasks.routes.ts`](src/app/features/tasks/tasks.routes.ts) `providers: [TaskStore]` |
 | Guard fonctionnel (`CanActivateFn`) | [`tasks-access.guard.ts`](src/app/core/guards/tasks-access.guard.ts) |
 
+### Bonus — cas d'`InjectionToken` (si le temps le permet)
+
+| Sujet | Fichier |
+|---|---|
+| Token pour une valeur sans classe (`window`) | [`window.token.ts`](src/app/core/tokens/window.token.ts), consommé dans [`legacy-tick-counter.ts`](src/app/shared/ui/legacy-tick-counter/legacy-tick-counter.ts) |
+| Token multi-provider (façon `NG_VALIDATORS`) | [`task-title-validators.token.ts`](src/app/features/tasks/data-access/task-title-validators.token.ts), enregistré dans [`tasks.routes.ts`](src/app/features/tasks/tasks.routes.ts) (`multi: true`), consommé dans [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) |
+
 ## Point 4 — Pattern smart/dumb
 
 | Rôle | Fichier |

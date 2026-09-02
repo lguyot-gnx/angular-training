@@ -9,9 +9,10 @@
       [status]="store.statusFilter()"
       [search]="store.searchText()"
       (statusChange)="onStatusChange($event)"
-      (searchChange)="onSearchChange($event)" />
+      (searchChange)="onSearchChange($event)"
+    />
 
-    <app-task-create-form (createRequested)="onCreate($event)" />
+    <app-task-create-form [titleError]="store.titleError()" (createRequested)="onCreate($event)" />
 
     <ul class="task-list" data-qt-id="taskBoard_list_container">
       @for (task of store.filteredTasks(); track task.id) {
@@ -21,9 +22,12 @@
           [done]="task.done"
           (doneChange)="onDoneChange(task.id, $event)"
           (renameRequested)="onRename(task.id, $event)"
-          (deleteRequested)="onDelete(task.id)"></li>
+          (deleteRequested)="onDelete(task.id)"
+        ></li>
       } @empty {
-        <li class="task-list__empty" data-qt-id="taskBoard_list_emptyState">Aucune tâche à afficher.</li>
+        <li class="task-list__empty" data-qt-id="taskBoard_list_emptyState">
+          Aucune tâche à afficher.
+        </li>
       }
     </ul>
   </section>

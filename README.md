@@ -85,6 +85,19 @@ cliquer sur "Aller aux tâches" pour voir la redirection.
 Tous les composants/services utilisent `inject()` en fonction — aucune injection par
 constructeur dans le projet.
 
+**Bonus — si le temps le permet :** deux cas d'`InjectionToken`.
+
+📄 **`src/app/core/tokens/window.token.ts`**
+`WINDOW` — un token pour une valeur qui n'a pas de classe (`window` est un global) ; consommé
+dans `legacy-tick-counter.ts` à la place du global ambiant, ce qui le rend testable/mockable.
+
+📄 **`src/app/features/tasks/data-access/task-title-validators.token.ts`**
+`TASK_TITLE_VALIDATORS` — token *multi-provider* (même principe que `HTTP_INTERCEPTORS` ou
+`NG_VALIDATORS` d'Angular) : chaque provider ajoute une règle à un même tableau plutôt que
+d'être codée en dur dans un service. Enregistré avec `multi: true` dans `tasks.routes.ts`,
+consommé dans `task-store.service.ts` (`addTask`/`renameTask`). Démo live : taper un titre
+vide ou de plus de 80 caractères dans le formulaire de création.
+
 ### 4. Pattern smart/dumb
 
 📄 **`src/app/features/tasks/containers/task-board/task-board.ts`** (+ `.html`)

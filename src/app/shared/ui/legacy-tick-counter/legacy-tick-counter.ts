@@ -5,7 +5,9 @@ import {
   OnDestroy,
   OnInit,
   inject,
+  signal,
 } from '@angular/core';
+import { WINDOW } from '@core/tokens/window.token';
 
 /**
  * DEMO — the exception, not the norm (see README point 2). Simulates a
@@ -22,20 +24,24 @@ import {
 })
 export class LegacyTickCounter implements OnInit, OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
+  // Bonus DI: injected via a token instead of the ambient global — see
+  // core/tokens/window.token.ts.
+  private readonly windowRef = inject(WINDOW);
   private intervalId: ReturnType<typeof setInterval> | undefined;
 
   // Deliberately a plain field, not a signal — that is exactly why this
   // component needs markForCheck() below.
   tickCount = 0;
+  tickCountSignal = signal(0);
 
   ngOnInit(): void {
-    this.intervalId = setInterval(() => {
+    this.intervalId = this.windowRef.setInterval(() => {
       this.tickCount += 1;
       this.cdr.markForCheck();
     }, 1000);
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.intervalId);
+    this.windowRef.clearInterval(this.intervalId);
   }
 }

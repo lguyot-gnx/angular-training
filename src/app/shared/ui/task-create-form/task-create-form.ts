@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 
 /** Dumb/presentational component: reports intent via output(), owns no business state. */
 @Component({
@@ -8,6 +8,11 @@ import { ChangeDetectionStrategy, Component, output, signal } from '@angular/cor
   styleUrl: './task-create-form.css',
 })
 export class TaskCreateForm {
+  // Error message comes from TaskStore's TASK_TITLE_VALIDATORS (bonus DI
+  // pattern) via the smart component — this dumb component never injects
+  // the store itself.
+  readonly titleError = input<string | null>(null);
+
   readonly createRequested = output<string>();
 
   readonly title = signal('');

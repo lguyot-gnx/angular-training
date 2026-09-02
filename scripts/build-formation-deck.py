@@ -244,9 +244,10 @@ add_checklist(
         "Service scopé à la route — `TaskStore` fourni dans `tasks.routes.ts`",
         "L'état ne doit pas survivre à la navigation hors de la feature",
         "Guard fonctionnel `CanActivateFn` — pas de constructeur à injecter",
+        "Bonus, si le temps le permet — `InjectionToken` : `WINDOW`, `TASK_TITLE_VALIDATORS`",
     ],
 )
-add_footer(slide, "`core/services/user-preferences.service.ts`, `core/guards/tasks-access.guard.ts`")
+add_footer(slide, "`core/tokens/window.token.ts`, `.../task-title-validators.token.ts`")
 
 # --- Slide 7 — Point 4 -------------------------------------------------------
 slide = add_slide()

@@ -23,3 +23,9 @@
 .compose__input::placeholder {
   color: var(--ink-faint);
 }
+
+.compose__error {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: var(--danger);
+}

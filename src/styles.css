@@ -17,6 +17,7 @@
   --accent: #b8862b;
   --accent-strong: #93690f;
   --focus: #2f6fed;
+  --danger: #a3402f;
 
   color-scheme: light;
 }
@@ -31,6 +32,7 @@
   --accent: #e3a83e;
   --accent-strong: #f2c169;
   --focus: #6ea0ff;
+  --danger: #e0796a;
 
   color-scheme: dark;
 }

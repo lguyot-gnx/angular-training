@@ -4,6 +4,7 @@ import { ActivityFeedService } from '@shared/data-access/activity-feed.service';
 import { StorageService } from '@shared/data-access/storage.service';
 import { Task, TaskStatusFilter } from './task.model';
 import { TaskApiService } from './task-api.service';
+import { TASK_TITLE_VALIDATORS } from './task-title-validators.token';
 import { sameTasks } from './task.utils';
 
 const STORAGE_KEY = 'training.tasks.snapshot';
@@ -19,6 +20,9 @@ export class TaskStore {
   private readonly api = inject(TaskApiService);
   private readonly storage = inject(StorageService);
   private readonly activityFeed = inject(ActivityFeedService);
+  // Bonus DI: multi-provider token — `optional` because nothing guarantees
+  // it was registered (e.g. a test bed that doesn't provide it).
+  private readonly titleValidators = inject(TASK_TITLE_VALIDATORS, { optional: true }) ?? [];
 
   // --- signal(): source of truth ----------------------------------------
   readonly tasks = signal<Task[]>([]);
@@ -62,6 +66,9 @@ export class TaskStore {
 
   readonly selectedTaskId = signal<string | null>(null);
 
+  // Surfaces the first `TASK_TITLE_VALIDATORS` failure to the smart component.
+  readonly titleError = signal<string | null>(null);
+
   constructor() {
     this.api.fetchTasks().subscribe((tasks) => this.tasks.set(tasks));
 
@@ -91,9 +98,12 @@ export class TaskStore {
 
   addTask(title: string): void {
     const trimmed = title.trim();
-    if (!trimmed) {
+    const error = this.firstValidationError(trimmed);
+    if (error) {
+      this.titleError.set(error);
       return;
     }
+    this.titleError.set(null);
     this.tasks.update((list) => [
       ...list,
       { id: crypto.randomUUID(), title: trimmed, done: false, createdAt: Date.now() },
@@ -102,10 +112,20 @@ export class TaskStore {
 
   renameTask(id: string, title: string): void {
     const trimmed = title.trim();
-    if (!trimmed) {
+    if (this.firstValidationError(trimmed)) {
       return;
     }
     this.tasks.update((list) => list.map((task) => (task.id === id ? { ...task, title: trimmed } : task)));
+  }
+
+  private firstValidationError(title: string): string | null {
+    for (const validate of this.titleValidators) {
+      const error = validate(title);
+      if (error) {
+        return error;
+      }
+    }
+    return null;
   }
 
   toggleDone(id: string, done: boolean): void {
