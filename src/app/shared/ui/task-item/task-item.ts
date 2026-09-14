@@ -1,13 +1,21 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, model, output, signal } from '@angular/core';
 import { Task } from '@features/tasks/data-access/task.model';
+import { HighlightDirective } from '@shared/directives/highlight.directive';
+import { RelativeTimePipe } from '@shared/pipes/relative-time.pipe';
 
 /**
  * Dumb/presentational component: only input()/model()/output(), no
  * injected data service, no knowledge of TaskStore — see README point 4.
+ *
+ * Sert aussi de démo pour les pipes/directives (README point 5) : pipe
+ * natif (`date`), pipe custom (`relativeTime`) et directive custom
+ * (`appHighlight`) sur le titre de la tâche.
  */
 @Component({
   selector: 'li[app-task-item]',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DatePipe, RelativeTimePipe, HighlightDirective],
   host: {
     class: 'task-item',
     '[class.task-item--done]': 'done()',

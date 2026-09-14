@@ -33,7 +33,7 @@
   </section>
 
   <aside class="diagnostics" aria-label="Diagnostics">
-    <h2 class="diagnostics__title">Diagnostics</h2>
+    <h2 class="diagnostics__title" [appHighlight]="'#e0f2fe'">Diagnostics</h2>
     <p class="diagnostics__hint">Hors du flux normal de réactivité — voir README, point 2.</p>
 
     @if (store.activityLog().length > 0) {

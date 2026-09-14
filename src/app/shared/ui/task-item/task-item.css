@@ -40,6 +40,12 @@
   min-width: 0;
 }
 
+.task-item__meta {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+}
+
 :host(.task-item--done) .task-item__title {
   color: var(--ink-faint);
   text-decoration: line-through;

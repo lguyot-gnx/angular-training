@@ -59,6 +59,14 @@ Tout est centralisé dans le service de données de la feature :
 | Dumb — `input()`/`output()` | [`task-filter-bar.ts`](src/app/shared/ui/task-filter-bar/task-filter-bar.ts), [`task-create-form.ts`](src/app/shared/ui/task-create-form/task-create-form.ts) |
 | Dumb — `model()` + état UI local | [`task-item.ts`](src/app/shared/ui/task-item/task-item.ts) (`done`, `isEditing`) |
 
+## Point 5 — Pipes et directives (exemples débutant)
+
+| Sujet | Fichier | Repère |
+|---|---|---|
+| Pipe custom pur | [`relative-time.pipe.ts`](src/app/shared/pipes/relative-time.pipe.ts) | `RelativeTimePipe`, utilisé dans [`task-item.html`](src/app/shared/ui/task-item/task-item.html) |
+| Pipe natif (`date`) | [`task-item.html`](src/app/shared/ui/task-item/task-item.html) | attribut `title` de la tâche |
+| Directive d'attribut custom (`host` + `input()`) | [`highlight.directive.ts`](src/app/shared/directives/highlight.directive.ts) | `HighlightDirective`, sur le titre de tâche ([`task-item.html`](src/app/shared/ui/task-item/task-item.html)) et sur "Diagnostics" avec une couleur personnalisée ([`task-board.html`](src/app/features/tasks/containers/task-board/task-board.html)) |
+
 ## Autres ressources
 
 - [`README.md`](README.md) — description du projet et instructions de démarrage

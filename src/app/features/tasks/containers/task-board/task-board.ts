@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { HighlightDirective } from '@shared/directives/highlight.directive';
 import { LegacyTickCounter } from '@shared/ui/legacy-tick-counter/legacy-tick-counter';
 import { TaskCreateForm } from '@shared/ui/task-create-form/task-create-form';
 import { TaskFilterBar } from '@shared/ui/task-filter-bar/task-filter-bar';
@@ -15,7 +16,7 @@ import { TaskStore } from '../../data-access/task-store.service';
 @Component({
   selector: 'app-task-board',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TaskItem, TaskFilterBar, TaskCreateForm, LegacyTickCounter],
+  imports: [TaskItem, TaskFilterBar, TaskCreateForm, LegacyTickCounter, HighlightDirective],
   templateUrl: './task-board.html',
   styleUrl: './task-board.css',
 })

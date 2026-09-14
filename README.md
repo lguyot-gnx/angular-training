@@ -25,6 +25,8 @@ src/app/
 ├── core/                # services & guards globaux (providedIn: 'root')
 ├── shared/
 │   ├── ui/               # composants "dumb" réutilisables
+│   ├── pipes/             # pipes custom (ex. relativeTime)
+│   ├── directives/        # directives custom (ex. appHighlight)
 │   └── data-access/      # services génériques (storage, flux externe simulé)
 ├── features/tasks/       # la feature "tâches"
 │   ├── data-access/       # TaskStore (signals) + modèle + API mockée
@@ -116,3 +118,20 @@ commentaire dans le fichier).
 
 📄 **`src/app/shared/ui/task-create-form/task-create-form.ts`**
 Composant **dumb** supplémentaire : `output()` seul, pour la création de tâche.
+
+### 5. Pipes et directives (exemples débutant)
+
+📄 **`src/app/shared/pipes/relative-time.pipe.ts`**
+Pipe **custom** (`relativeTime`) : transforme un timestamp en libellé relatif court
+("il y a 5 min"). Pipe pur (par défaut) — comme un `computed()`, Angular ne relance
+`transform()` que si la référence de la valeur d'entrée change. Utilisé dans
+`task-item.html`, à côté du pipe **natif** `date` (qui affiche la date exacte en `title`
+au survol).
+
+📄 **`src/app/shared/directives/highlight.directive.ts`**
+Directive d'attribut **custom** (`appHighlight`) : surligne son hôte au survol via un
+`signal()` local et des bindings `host` (pas de `*ngIf`/structural directive ici — le
+control flow natif du point 1 s'en charge déjà). L'input reprend le nom du sélecteur, ce
+qui permet `[appHighlight]="'#e0f2fe'"` directement. Démo : titre de chaque tâche
+(couleur par défaut) dans `task-item.html`, et titre "Diagnostics" (couleur personnalisée)
+dans `task-board.html`.

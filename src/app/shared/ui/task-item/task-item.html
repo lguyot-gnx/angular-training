@@ -25,7 +25,14 @@
     (change)="onDoneChange($event)"
     [attr.aria-label]="'Marquer ' + task().title + ' comme terminée'"
     data-qt-id="taskItem_row_doneCheckbox" />
-  <span class="task-item__title">{{ task().title }}</span>
+  <span
+    class="task-item__title"
+    appHighlight
+    data-qt-id="taskItem_row_title">{{ task().title }}</span>
+  <span
+    class="task-item__meta"
+    [attr.title]="task().createdAt | date: 'dd/MM/yyyy HH:mm'"
+    data-qt-id="taskItem_row_createdAt">{{ task().createdAt | relativeTime }}</span>
   <div class="task-item__actions">
     <button type="button" class="button button--ghost" (click)="startEdit()" data-qt-id="taskItem_row_editButton">
       Éditer
