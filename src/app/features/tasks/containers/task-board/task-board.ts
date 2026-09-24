@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angular/core';
 import { HighlightDirective } from '@shared/directives/highlight.directive';
 import { LegacyTickCounter } from '@shared/ui/legacy-tick-counter/legacy-tick-counter';
 import { TaskCreateForm } from '@shared/ui/task-create-form/task-create-form';
 import { TaskFilterBar } from '@shared/ui/task-filter-bar/task-filter-bar';
 import { TaskItem } from '@shared/ui/task-item/task-item';
-import { TaskStatusFilter } from '../../data-access/task.model';
+import { Task, TaskStatusFilter } from '../../data-access/task.model';
 import { TaskStore } from '../../data-access/task-store.service';
 
 /**
@@ -22,6 +22,14 @@ import { TaskStore } from '../../data-access/task-store.service';
 })
 export class TaskBoard {
   protected readonly store = inject(TaskStore);
+
+  // Alimenté par `initialTasksResolver` via `withComponentInputBinding()`
+  // (voir app.config.ts et tasks.routes.ts) — README, Bonus "Data Resolvers".
+  readonly initialTasks = input.required<Task[]>();
+
+  constructor() {
+    effect(() => this.store.seedTasks(this.initialTasks()));
+  }
 
   onStatusChange(filter: TaskStatusFilter): void {
     this.store.setStatusFilter(filter);

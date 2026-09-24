@@ -89,8 +89,6 @@ export class TaskStore {
   readonly titleError = signal<string | null>(null);
 
   constructor() {
-    this.api.fetchTasks().subscribe((tasks) => this.tasks.set(tasks));
-
     // --- effect(): isolated side effect, not a computed() ----------------
     // Persisting to storage produces no value that other state depends on
     // — it's I/O, not derived data. A computed() must stay pure, so this
@@ -113,6 +111,15 @@ export class TaskStore {
         this.selectedTaskId.set(list[0]?.id ?? null);
       }
     });
+  }
+
+  /**
+   * Seed initial du store avec les tâches déjà pré-chargées par
+   * `initialTasksResolver` (voir tasks.routes.ts) — plus besoin de
+   * fetch ici : la donnée est prête avant même l'activation de la route.
+   */
+  seedTasks(tasks: Task[]): void {
+    this.tasks.set(tasks);
   }
 
   addTask(title: string): void {

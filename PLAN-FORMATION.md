@@ -71,6 +71,16 @@ Tout est centralisé dans le service de données de la feature :
 | Directive d'attribut custom (`host` + `input()`) | [`highlight.directive.ts`](src/app/shared/directives/highlight.directive.ts) | `HighlightDirective`, sur le titre de tâche ([`task-item.html`](src/app/shared/ui/task-item/task-item.html)) et sur "Diagnostics" avec une couleur personnalisée ([`task-board.html`](src/app/features/tasks/containers/task-board/task-board.html)) |
 
 
+## Point supplémentaire — Résolveur de données (`ResolveFn`)
+
+| Sujet | Fichier | Repère |
+|---|---|---|
+| Résolveur fonctionnel (`ResolveFn`) | [`initial-tasks.resolver.ts`](src/app/features/tasks/data-access/initial-tasks.resolver.ts) | `initialTasksResolver`, pré-charge la liste de tâches avant l'activation de la route |
+| Déclaration sur la route | [`tasks.routes.ts`](src/app/features/tasks/tasks.routes.ts) | clé `resolve: { initialTasks: ... }` |
+| Activation de `withComponentInputBinding()` | [`app.config.ts`](src/app/app.config.ts) | permet d'injecter la donnée résolue directement dans un `input()` |
+| Réception côté composant (`input.required()`) | [`task-board.ts`](src/app/features/tasks/containers/task-board/task-board.ts) | `initialTasks`, transmis au store via `store.seedTasks(...)` |
+| Store "seedé" au lieu de fetcher lui-même | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) | `seedTasks()` remplace l'ancien `fetchTasks().subscribe()` du constructeur |
+
 ## Autres ressources
 
 - [`README.md`](README.md) — description du projet et instructions de démarrage

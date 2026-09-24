@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { tasksAccessGuard } from '@core/guards/tasks-access.guard';
+import { initialTasksResolver } from './data-access/initial-tasks.resolver';
 import { TaskStore } from './data-access/task-store.service';
 import { TASK_TITLE_VALIDATORS, maxTitleLength, requireNonBlankTitle } from './data-access/task-title-validators.token';
 
@@ -15,6 +16,7 @@ export const tasksRoutes: Routes = [
   {
     path: '',
     canActivate: [tasksAccessGuard],
+    resolve: { initialTasks: initialTasksResolver },
     providers: [
       TaskStore,
       { provide: TASK_TITLE_VALIDATORS, useValue: requireNonBlankTitle, multi: true },
