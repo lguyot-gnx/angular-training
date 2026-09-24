@@ -1,0 +1,7 @@
+@if (detail().isLoading()) {
+  <p data-qt-id="taskBoard_detail_loading">Chargement du détail…</p>
+} @else if (detail().error(); as error) {
+  <p class="task-detail__error" data-qt-id="taskBoard_detail_error">Erreur : {{ error.message }}</p>
+} @else if (detail().value(); as value) {
+  <app-task-detail-form [detail]="value" [saving]="saving()" (saveRequested)="saveRequested.emit($event)" />
+}

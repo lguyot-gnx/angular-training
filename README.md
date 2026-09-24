@@ -158,3 +158,29 @@ Les deux exposent la même API : `.value()`, `.isLoading()`, `.error()` — aucu
 Panneau "Détail" affiché sous la liste quand une tâche est sélectionnée (bouton "Détail" sur
 chaque `task-item`) : démo live des trois états (`isLoading()`, `error()`, `value()`) pour les
 deux resources.
+
+### 7. Reactive Forms (en complément)
+
+📄 **`src/app/shared/ui/task-detail-form/task-detail-form.ts`** (+ `.html`)
+Composant **dumb** qui édite le détail d'une tâche (`description`, `estimateHours`) avec un
+vrai `FormGroup`/`FormControl` typés (`ReactiveFormsModule`), à comparer avec le formulaire
+"manuel" de `TaskCreateForm` (un seul `signal()`, pas de notion de champ/validateur) :
+- Validation déclarative avec `Validators` (`required`, `minLength`, `min`, `max`) : le template
+  lit l'état directement sur le form (`form.controls.description.invalid`, `.touched`,
+  `.hasError(...)`) — rien n'est recalculé à la main comme le fait `TASK_TITLE_VALIDATORS`
+  (point 3) côté `TaskCreateForm`.
+- Le form reste un dumb component au sens du point 4 : toujours `input()`/`output()`
+  uniquement, aucune injection de `TaskStore`.
+- Synchronisation avec le `detail` reçu en `input()` via un `effect()` dans le constructeur
+  (`form.reset(...)`) : montre que Reactive Forms et Signals cohabitent sans souci, y compris
+  quand la donnée éditée change de référence (nouvelle tâche sélectionnée).
+
+📄 **`src/app/features/tasks/data-access/task-store.service.ts`**
+`updateTaskDetail()` : appelle l'API mockée puis écrit le résultat directement dans
+`taskDetail.set(...)` — la `resource()` du point 6 expose sa valeur en écriture
+(`WritableResource`), pas besoin de `reload()` pour refléter ce qu'on vient d'enregistrer.
+`savingDetail`, un `signal()` simple, porte l'état de sauvegarde (désactive le bouton "Enregistrer").
+
+📄 **`src/app/features/tasks/containers/task-board/task-board.html`**
+Le formulaire remplace l'affichage en lecture seule du détail, dans le même panneau que le
+point 6 (`app-task-detail-form` branché sur `store.taskDetail.value()`).

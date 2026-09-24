@@ -81,6 +81,18 @@ Tout est centralisé dans le service de données de la feature :
 | Réception côté composant (`input.required()`) | [`task-board.ts`](src/app/features/tasks/containers/task-board/task-board.ts) | `initialTasks`, transmis au store via `store.seedTasks(...)` |
 | Store "seedé" au lieu de fetcher lui-même | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) | `seedTasks()` remplace l'ancien `fetchTasks().subscribe()` du constructeur |
 
+## Point supplémentaire — Reactive Forms
+
+| Sujet | Fichier | Repère |
+|---|---|---|
+| `FormGroup` / `FormControl` typés + `Validators` déclaratifs | [`task-detail-form.ts`](src/app/shared/ui/task-detail-form/task-detail-form.ts) | `form`, validateurs `required`/`minLength`/`min`/`max` |
+| Template lié au form (`formGroup`, `formControlName`) | [`task-detail-form.html`](src/app/shared/ui/task-detail-form/task-detail-form.html) | erreurs affichées via `form.controls.<champ>.hasError(...)` |
+| Sync `input()` signal ↔ form (`effect()` + `form.reset()`) | [`task-detail-form.ts`](src/app/shared/ui/task-detail-form/task-detail-form.ts) | constructeur, resynchro à chaque changement de `detail` |
+| Dumb component (toujours `input()`/`output()`) | [`task-detail-form.ts`](src/app/shared/ui/task-detail-form/task-detail-form.ts) | comparer avec [`task-create-form.ts`](src/app/shared/ui/task-create-form/task-create-form.ts) (formulaire "manuel" en `signal()`) |
+| Écriture dans une `resource()` après sauvegarde (`WritableResource.set()`) | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) | `updateTaskDetail()`, met à jour `taskDetail` sans `reload()` |
+| Mock de persistance | [`task-api.service.ts`](src/app/features/tasks/data-access/task-api.service.ts) | `updateTaskDetail()` |
+| Branchement dans l'UI | [`task-board.html`](src/app/features/tasks/containers/task-board/task-board.html) | remplace l'affichage en lecture seule du détail (point 1, `taskDetail`) |
+
 ## Autres ressources
 
 - [`README.md`](README.md) — description du projet et instructions de démarrage

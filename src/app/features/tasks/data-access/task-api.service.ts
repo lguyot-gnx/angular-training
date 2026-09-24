@@ -8,7 +8,7 @@ const SEED_TASKS: readonly Task[] = [
   { id: 't3', title: 'Relire le pattern smart/dumb', done: true, createdAt: Date.now() - 100_000 },
 ];
 
-const TASK_DETAILS: Readonly<Record<string, TaskDetail>> = {
+const TASK_DETAILS: Record<string, TaskDetail> = {
   t1: { id: 't1', description: "Lire la doc officielle et coder les exemples du store.", estimateHours: 3 },
   t2: { id: 't2', description: 'Vérifier que rien ne dépend de Zone.js dans le projet.', estimateHours: 2 },
   t3: { id: 't3', description: 'Comparer avec les anciens composants smart/dumb Angular.', estimateHours: 1 },
@@ -51,5 +51,20 @@ export class TaskApiService {
    */
   fetchTaskComments(id: string): Observable<readonly string[]> {
     return of(TASK_COMMENTS[id] ?? []).pipe(delay(500));
+  }
+
+  /**
+   * Persiste le détail édité via `TaskDetailForm` (Reactive Forms, README
+   * point 7) — même mock "en mémoire" que `fetchTaskDetail()`, pour que la
+   * valeur enregistrée survive à un changement de sélection puis un retour
+   * sur la même tâche.
+   */
+  updateTaskDetail(detail: TaskDetail): Promise<TaskDetail> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        TASK_DETAILS[detail.id] = { ...detail };
+        resolve({ ...detail });
+      }, 400);
+    });
   }
 }

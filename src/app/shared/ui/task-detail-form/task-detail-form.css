@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  margin-top: 0.75rem;
+}
+
+.detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.detail-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.detail-form__label {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.detail-form__textarea,
+.detail-form__input {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--ink);
+  resize: vertical;
+}
+
+.detail-form__error {
+  font-size: 0.82rem;
+  color: var(--danger);
+}

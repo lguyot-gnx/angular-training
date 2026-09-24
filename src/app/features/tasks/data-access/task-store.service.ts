@@ -2,7 +2,7 @@ import { Injectable, computed, effect, inject, linkedSignal, resource, signal, u
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { ActivityFeedService } from '@shared/data-access/activity-feed.service';
 import { StorageService } from '@shared/data-access/storage.service';
-import { Task, TaskStatusFilter } from './task.model';
+import { Task, TaskDetail, TaskStatusFilter } from './task.model';
 import { TaskApiService } from './task-api.service';
 import { TASK_TITLE_VALIDATORS } from './task-title-validators.token';
 import { sameTasks } from './task.utils';
@@ -88,6 +88,11 @@ export class TaskStore {
   // Surfaces the first `TASK_TITLE_VALIDATORS` failure to the smart component.
   readonly titleError = signal<string | null>(null);
 
+  // État de sauvegarde du formulaire de détail (Reactive Forms, README
+  // point 7) — un simple signal() : c'est un aller-retour ponctuel, pas une
+  // valeur async à dériver de `params`, donc pas de `resource()` ici.
+  readonly savingDetail = signal(false);
+
   constructor() {
     // --- effect(): isolated side effect, not a computed() ----------------
     // Persisting to storage produces no value that other state depends on
@@ -172,5 +177,22 @@ export class TaskStore {
 
   selectTask(id: string | null): void {
     this.selectedTaskId.set(id);
+  }
+
+  /**
+   * Sauvegarde le détail édité via `TaskDetailForm` (Reactive Forms, README
+   * point 7). Une fois l'appel résolu, `taskDetail.set()` met à jour la
+   * `resource()` directement — `WritableResource` expose sa valeur en
+   * écriture, pas besoin de `reload()` pour repartir chercher ce qu'on vient
+   * d'envoyer.
+   */
+  async updateTaskDetail(detail: TaskDetail): Promise<void> {
+    this.savingDetail.set(true);
+    try {
+      const saved = await this.api.updateTaskDetail(detail);
+      this.taskDetail.set(saved);
+    } finally {
+      this.savingDetail.set(false);
+    }
   }
 }

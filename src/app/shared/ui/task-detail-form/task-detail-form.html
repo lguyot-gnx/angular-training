@@ -1,0 +1,42 @@
+<form class="detail-form" [formGroup]="form" (ngSubmit)="onSubmit()" data-qt-id="taskDetailForm_form">
+  <label class="detail-form__field">
+    <span class="detail-form__label">Description</span>
+    <textarea
+      class="detail-form__textarea"
+      formControlName="description"
+      rows="3"
+      data-qt-id="taskDetailForm_description_input"
+    ></textarea>
+    @if (form.controls.description.invalid && form.controls.description.touched) {
+      <span class="detail-form__error" data-qt-id="taskDetailForm_description_errorText">
+        @if (form.controls.description.hasError('required')) {
+          La description est obligatoire.
+        } @else if (form.controls.description.hasError('minlength')) {
+          10 caractères minimum.
+        }
+      </span>
+    }
+  </label>
+
+  <label class="detail-form__field">
+    <span class="detail-form__label">Estimation (heures)</span>
+    <input
+      type="number"
+      class="detail-form__input"
+      formControlName="estimateHours"
+      data-qt-id="taskDetailForm_estimateHours_input" />
+    @if (form.controls.estimateHours.invalid && form.controls.estimateHours.touched) {
+      <span class="detail-form__error" data-qt-id="taskDetailForm_estimateHours_errorText">
+        @if (form.controls.estimateHours.hasError('required')) {
+          L'estimation est obligatoire.
+        } @else if (form.controls.estimateHours.hasError('min') || form.controls.estimateHours.hasError('max')) {
+          Entre 1 et 40 heures.
+        }
+      </span>
+    }
+  </label>
+
+  <button type="submit" class="button" [disabled]="saving()" data-qt-id="taskDetailForm_submit_button">
+    {{ saving() ? 'Enregistrement…' : 'Enregistrer' }}
+  </button>
+</form>

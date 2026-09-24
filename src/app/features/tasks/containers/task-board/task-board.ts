@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angu
 import { HighlightDirective } from '@shared/directives/highlight.directive';
 import { LegacyTickCounter } from '@shared/ui/legacy-tick-counter/legacy-tick-counter';
 import { TaskCreateForm } from '@shared/ui/task-create-form/task-create-form';
+import { TaskDetailPanel } from '@shared/ui/task-detail-panel/task-detail-panel';
 import { TaskFilterBar } from '@shared/ui/task-filter-bar/task-filter-bar';
 import { TaskItem } from '@shared/ui/task-item/task-item';
-import { Task, TaskStatusFilter } from '../../data-access/task.model';
+import { Task, TaskDetail, TaskStatusFilter } from '../../data-access/task.model';
 import { TaskStore } from '../../data-access/task-store.service';
 
 /**
@@ -16,7 +17,7 @@ import { TaskStore } from '../../data-access/task-store.service';
 @Component({
   selector: 'app-task-board',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TaskItem, TaskFilterBar, TaskCreateForm, LegacyTickCounter, HighlightDirective],
+  imports: [TaskItem, TaskFilterBar, TaskCreateForm, TaskDetailPanel, LegacyTickCounter, HighlightDirective],
   templateUrl: './task-board.html',
   styleUrl: './task-board.css',
 })
@@ -57,5 +58,9 @@ export class TaskBoard {
 
   onCreate(title: string): void {
     this.store.addTask(title);
+  }
+
+  onSaveDetail(detail: TaskDetail): void {
+    this.store.updateTaskDetail(detail);
   }
 }
