@@ -135,3 +135,26 @@ control flow natif du point 1 s'en charge déjà). L'input reprend le nom du sé
 qui permet `[appHighlight]="'#e0f2fe'"` directement. Démo : titre de chaque tâche
 (couleur par défaut) dans `task-item.html`, et titre "Diagnostics" (couleur personnalisée)
 dans `task-board.html`.
+
+### 6. `resource()` et `rxResource()`
+
+📄 **`src/app/features/tasks/data-access/task-store.service.ts`**
+- `taskDetail` — `resource()` : `params` réactif (`selectedTaskId`), `loader` qui retourne une
+  `Promise` (`TaskApiService.fetchTaskDetail()`). `params` renvoie `undefined` tant qu'aucune
+  tâche n'est sélectionnée → le `loader` n'est pas appelé (état `idle`), pas de fetch inutile.
+- `taskComments` — `rxResource()` : même principe, mais `stream` retourne un `Observable`
+  (`TaskApiService.fetchTaskComments()`) plutôt qu'une `Promise` — utile quand la source est
+  déjà réactive (HttpClient, WebSocket...). Compare avec `taskDetail` juste au-dessus.
+
+Les deux exposent la même API : `.value()`, `.isLoading()`, `.error()` — aucun `signal()` +
+`effect()` manuel pour gérer l'état de chargement/erreur, contrairement à ce qu'il aurait fallu
+écrire à la main avant `resource()`.
+
+📄 **`src/app/features/tasks/data-access/task-api.service.ts`**
+`fetchTaskDetail()` (Promise, avec un cas d'erreur simulé pour un id inconnu) et
+`fetchTaskComments()` (Observable) : les deux sources asynchrones consommées ci-dessus.
+
+📄 **`src/app/features/tasks/containers/task-board/task-board.html`**
+Panneau "Détail" affiché sous la liste quand une tâche est sélectionnée (bouton "Détail" sur
+chaque `task-item`) : démo live des trois états (`isLoading()`, `error()`, `value()`) pour les
+deux resources.

@@ -34,6 +34,7 @@ export class TaskItem {
 
   readonly renameRequested = output<string>();
   readonly deleteRequested = output<string>();
+  readonly selectRequested = output<string>();
 
   // Local UI-only state: "editing" belongs to this component, never to the
   // task store — it isn't shared business data, so a plain signal() is

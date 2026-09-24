@@ -26,6 +26,9 @@ Tout est centralisé dans le service de données de la feature :
 | `effect()` | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) | persistance dans le `constructor()` |
 | `effect()` + `untracked()` | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) | auto-sélection de `selectedTaskId` |
 | `toSignal()` | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) | `activityLog`, source : [`activity-feed.service.ts`](src/app/shared/data-access/activity-feed.service.ts) |
+| `resource()` (loader `Promise`) | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) | `taskDetail`, source : [`task-api.service.ts`](src/app/features/tasks/data-access/task-api.service.ts) `fetchTaskDetail()` |
+| `rxResource()` (loader `Observable`) | [`task-store.service.ts`](src/app/features/tasks/data-access/task-store.service.ts) | `taskComments`, source : [`task-api.service.ts`](src/app/features/tasks/data-access/task-api.service.ts) `fetchTaskComments()` |
+| États `.isLoading()` / `.error()` / `.value()` en démo live | [`task-board.html`](src/app/features/tasks/containers/task-board/task-board.html) | panneau "Détail", déclenché par le bouton "Détail" de [`task-item.html`](src/app/shared/ui/task-item/task-item.html) |
 
 ## Point 2 — Stratégie de détection des composants
 
@@ -67,8 +70,8 @@ Tout est centralisé dans le service de données de la feature :
 | Pipe natif (`date`) | [`task-item.html`](src/app/shared/ui/task-item/task-item.html) | attribut `title` de la tâche |
 | Directive d'attribut custom (`host` + `input()`) | [`highlight.directive.ts`](src/app/shared/directives/highlight.directive.ts) | `HighlightDirective`, sur le titre de tâche ([`task-item.html`](src/app/shared/ui/task-item/task-item.html)) et sur "Diagnostics" avec une couleur personnalisée ([`task-board.html`](src/app/features/tasks/containers/task-board/task-board.html)) |
 
+
 ## Autres ressources
 
 - [`README.md`](README.md) — description du projet et instructions de démarrage
-- [`formation-angular21-signals.pptx`](formation-angular21-signals.pptx) — support de suivi de la formation
-- [`scripts/build-formation-deck.py`](scripts/build-formation-deck.py) — génère le support ci-dessus
+- [`Angular Training — Signals, détection, DI.pptx`](Angular Training — Signals, détection, DI.pptx) — support de suivi de la formation

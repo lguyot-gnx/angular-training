@@ -1,5 +1,5 @@
-import { Injectable, computed, effect, inject, linkedSignal, signal, untracked } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Injectable, computed, effect, inject, linkedSignal, resource, signal, untracked } from '@angular/core';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { ActivityFeedService } from '@shared/data-access/activity-feed.service';
 import { StorageService } from '@shared/data-access/storage.service';
 import { Task, TaskStatusFilter } from './task.model';
@@ -65,6 +65,25 @@ export class TaskStore {
   readonly activityLog = toSignal(this.activityFeed.messages$, { initialValue: [] as readonly string[] });
 
   readonly selectedTaskId = signal<string | null>(null);
+
+  // --- resource(): async value derived from a reactive `params` ----------
+  // Reruns the `loader` (a Promise-based fetch) every time `selectedTaskId`
+  // changes; returns `undefined` and skips the fetch entirely while no task
+  // is selected. `.value()`, `.isLoading()`, `.error()` give the async state
+  // without any manual signal/effect plumbing.
+  readonly taskDetail = resource({
+    params: () => this.selectedTaskId() ?? undefined,
+    loader: ({ params: id }) => this.api.fetchTaskDetail(id),
+  });
+
+  // --- rxResource(): same idea, but the loader returns an Observable ------
+  // Useful when the source is RxJS-based (HttpClient, a WebSocket, a
+  // third-party stream) instead of a Promise — compare with `taskDetail`
+  // above, which wraps a Promise-returning API.
+  readonly taskComments = rxResource({
+    params: () => this.selectedTaskId() ?? undefined,
+    stream: ({ params: id }) => this.api.fetchTaskComments(id),
+  });
 
   // Surfaces the first `TASK_TITLE_VALIDATORS` failure to the smart component.
   readonly titleError = signal<string | null>(null);

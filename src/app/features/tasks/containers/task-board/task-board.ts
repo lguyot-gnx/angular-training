@@ -43,6 +43,10 @@ export class TaskBoard {
     this.store.removeTask(id);
   }
 
+  onSelect(id: string): void {
+    this.store.selectTask(id);
+  }
+
   onCreate(title: string): void {
     this.store.addTask(title);
   }

@@ -50,6 +50,49 @@
   font-size: 0.9rem;
 }
 
+.task-detail {
+  border: 1px dashed var(--line);
+  background: var(--surface);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.task-detail__title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin: 0 0 0.25rem;
+}
+
+.task-detail__hint {
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  margin: 0 0 1.1rem;
+  line-height: 1.4;
+}
+
+.task-detail__meta {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.task-detail__error {
+  color: var(--danger);
+}
+
+.task-detail__comments {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0.75rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
 .diagnostics {
   border: 1px dashed var(--line);
   background: var(--surface);

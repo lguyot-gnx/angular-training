@@ -23,6 +23,7 @@
           (doneChange)="onDoneChange(task.id, $event)"
           (renameRequested)="onRename(task.id, $event)"
           (deleteRequested)="onDelete(task.id)"
+          (selectRequested)="onSelect(task.id)"
         ></li>
       } @empty {
         <li class="task-list__empty" data-qt-id="taskBoard_list_emptyState">
@@ -30,6 +31,42 @@
         </li>
       }
     </ul>
+
+    @if (store.selectedTaskId(); as selectedId) {
+      <section class="task-detail" data-qt-id="taskBoard_detail_container">
+        <h2 class="task-detail__title">Détail — {{ selectedId }}</h2>
+        <p class="task-detail__hint">
+          <code>resource()</code> (description) + <code>rxResource()</code> (commentaires) — voir README point 6.
+        </p>
+
+        <!-- resource(): état Promise-based (params/loader) -->
+        @if (store.taskDetail.isLoading()) {
+          <p data-qt-id="taskBoard_detail_loading">Chargement du détail…</p>
+        } @else if (store.taskDetail.error(); as error) {
+          <p class="task-detail__error" data-qt-id="taskBoard_detail_error">Erreur : {{ error.message }}</p>
+        } @else if (store.taskDetail.value(); as detail) {
+          <p data-qt-id="taskBoard_detail_description">{{ detail.description }}</p>
+          <p class="task-detail__meta" data-qt-id="taskBoard_detail_estimate">
+            Estimation : {{ detail.estimateHours }} h
+          </p>
+        }
+
+        <!-- rxResource(): même état, mais alimenté par un Observable -->
+        @if (store.taskComments.isLoading()) {
+          <p data-qt-id="taskBoard_comments_loading">Chargement des commentaires…</p>
+        } @else if (store.taskComments.value(); as comments) {
+          @if (comments.length > 0) {
+            <ul class="task-detail__comments" data-qt-id="taskBoard_comments_list">
+              @for (comment of comments; track comment) {
+                <li>{{ comment }}</li>
+              }
+            </ul>
+          } @else {
+            <p class="task-detail__meta" data-qt-id="taskBoard_comments_emptyState">Aucun commentaire.</p>
+          }
+        }
+      </section>
+    }
   </section>
 
   <aside class="diagnostics" aria-label="Diagnostics">
